@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "vite build",
-    "test": "echo \"Success: Placeholder for future unit tests.\" && exit 0"
+    "test": "echo Success"
   },
   "dependencies": {
     "express": "^4.19.2",

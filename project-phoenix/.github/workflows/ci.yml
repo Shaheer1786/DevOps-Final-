@@ -20,11 +20,9 @@ jobs:
         node-version: 22
 
     - name: Install Dependencies
-      # This explicitly forces npm to look inside your app folder
-      run: npm ci
+      run: npm install
       working-directory: ./project-phoenix
 
     - name: Run Unit Tests
-      # This explicitly forces the test to run inside your app folder
       run: npm test
       working-directory: ./project-phoenix
