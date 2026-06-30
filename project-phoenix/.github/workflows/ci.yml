@@ -9,10 +9,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: ./project-phoenix
 
     steps:
     - name: Checkout Source Code
@@ -21,12 +17,15 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22 # Using a stable, non-deprecated LTS version
-        cache: 'npm'
-        cache-dependency-path: './project-phoenix/package-lock.json'
+        node-version: 22
 
-    - name: Install Dependencies
-      run: npm ci
-
-    - name: Run Unit Tests
-      run: npm test
+    - name: Dynamically Find and Run Build/Test
+      run: |
+        # Search for where package.json actually lives dynamically
+        TARGET_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \;)
+        echo "Found package.json in directory: $TARGET_DIR"
+        cd "$TARGET_DIR"
+        
+        # Run clean install and test directly in that folder
+        npm install
+        npm test
