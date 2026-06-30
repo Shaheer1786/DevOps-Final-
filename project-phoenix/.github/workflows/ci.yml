@@ -19,13 +19,12 @@ jobs:
       with:
         node-version: 22
 
-    - name: Dynamically Find and Run Build/Test
-      run: |
-        # Search for where package.json actually lives dynamically
-        TARGET_DIR=$(find . -name "package.json" -not -path "*/node_modules/*" -exec dirname {} \;)
-        echo "Found package.json in directory: $TARGET_DIR"
-        cd "$TARGET_DIR"
-        
-        # Run clean install and test directly in that folder
-        npm install
-        npm test
+    - name: Install Dependencies
+      # This explicitly forces npm to look inside your app folder
+      run: npm ci
+      working-directory: ./project-phoenix
+
+    - name: Run Unit Tests
+      # This explicitly forces the test to run inside your app folder
+      run: npm test
+      working-directory: ./project-phoenix
