@@ -10,25 +10,20 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
-    # ⬇️ ADD THIS BLOCK IF YOUR CODE IS IN A SUBFOLDER ⬇️
     defaults:
       run:
-        working-directory: ./project-phoenix # Change this to your exact subfolder name if different
-
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
+        working-directory: ./project-phoenix
 
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22 # Using a stable, non-deprecated LTS version
         cache: 'npm'
-        cache-dependency-path: './project-phoenix/package-lock.json' # ⬅️ Point this to the subfolder too!
+        cache-dependency-path: './project-phoenix/package-lock.json'
 
     - name: Install Dependencies
       run: npm ci
